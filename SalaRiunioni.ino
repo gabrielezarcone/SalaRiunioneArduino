@@ -6,7 +6,6 @@
 Laser laser(LASER_PIN, HIGH);
 
 void setup() {
-  pinMode(LASER_PIN, OUTPUT);
   pinMode(LIGHT_PIN, INPUT);
 }
 
