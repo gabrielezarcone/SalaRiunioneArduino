@@ -1,10 +1,13 @@
+#include <Laser.h>
+
 #define LASER_PIN 6
 #define LIGHT_PIN A3
+
+Laser laser(LASER_PIN, HIGH);
 
 void setup() {
   pinMode(LASER_PIN, OUTPUT);
   pinMode(LIGHT_PIN, INPUT);
-  digitalWrite(LASER_PIN, HIGH);
 }
 
 void loop() {
