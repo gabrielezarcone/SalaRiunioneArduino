@@ -1,5 +1,5 @@
-#ifndef LaserDetector.h
-#define LaserDetector.h
+#ifndef LaserDetector_h
+#define LaserDetector_h
 
 #include <Arduino.h>
 
@@ -11,6 +11,6 @@ class LaserDetector{
         bool isBlack(); // restituisce true se il valore di luminosità corrisponde al valore di oscuritò
     private:
         int _pin;
-}
+};
 
 #endif
