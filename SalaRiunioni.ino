@@ -1,5 +1,5 @@
-#include <Laser.h>
-#include <LaserDetector.h>
+#include "src/Laser/Laser.h"
+#include "src/LaserDetector/LaserDetector.h"
 
 #define LASER_PIN 6
 #define DETECTOR_PIN A3
