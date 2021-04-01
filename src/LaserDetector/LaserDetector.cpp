@@ -19,5 +19,5 @@ bool LaserDetector::isLaser(){
 bool LaserDetector::isBlack(){
     // Il nostro fotoresistore restituisce un valore di 1023 in caso di completa oscurità
     // All'aumentare della quantità della luce il valore restituito scende diventando sempre più piccolo
-    return leggiLuce() > 1000; 
+    return leggiLuce() > 1010; 
 }
