@@ -15,12 +15,59 @@ void setup() {
 }
 
 void loop() {
-  if(laserDetector1.isBlack()){
-    while (!laserDetector1.isLaser()){}
-    Serial.println("Passato dal primo sensore");
+  controllaEntrata();
+  controllaUscita();
+}
+
+void controllaEntrata(){
+  if (laserDetector1.isBlack()){
+    if (stato1(laserDetector1, laserDetector2)){
+      Serial.println("Entrata");
+    }
   }
-  if(laserDetector2.isBlack()){
-    while (!laserDetector2.isLaser()){}
-    Serial.println("Passato dal secondo sensore");
+  
+}
+
+void controllaUscita(){
+  if (laserDetector2.isBlack()){
+    if (stato1(laserDetector2, laserDetector1)){
+      Serial.println("Uscita");
+    }
   }
+}
+
+bool stato1(LaserDetector detector1, LaserDetector detector2){
+  while (!detector1.isLaser()){ // rimane dentro finchè non si riaccende il laser
+    if (detector2.isBlack()){
+      return stato5();
+    }
+  }
+  return stato2(detector1, detector2);
+}
+
+bool stato2(LaserDetector detector1, LaserDetector detector2){
+  while (!detector2.isBlack()){
+    if (detector1.isBlack()){
+      return stato1(detector1, detector2);
+    }
+  }
+  return stato3(detector1, detector2);
+}
+
+bool stato3(LaserDetector detector1, LaserDetector detector2){
+  while (!detector2.isLaser()){
+    if (detector1.isBlack()){
+      return stato5();
+    }
+  }
+  return stato4(detector1, detector2);
+}
+
+bool stato4(LaserDetector detector1, LaserDetector detector2){
+  return true;
+}
+
+bool stato5(){
+  Serial.println("Entrambi detector spenti");
+  return false;
 }
