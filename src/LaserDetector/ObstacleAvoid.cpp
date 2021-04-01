@@ -12,10 +12,10 @@ int ObstacleAvoid::leggiLuce(){
 
 bool ObstacleAvoid::isLaser(){
     // Simula un LaserDetector che percepisce la luce del laser
-    return leggiLuce() == 1;
+    return leggiLuce() == 0;
 }
 
 bool ObstacleAvoid::isBlack(){
     // Simula un LaserDetector che percepisce il buio
-    return leggiLuce() == 0;
+    return leggiLuce() == 1;
 }
