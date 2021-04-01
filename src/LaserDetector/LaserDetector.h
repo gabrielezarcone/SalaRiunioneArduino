@@ -5,6 +5,7 @@
 
 class LaserDetector{
     public:
+        LaserDetector();
         LaserDetector(int pin);
         int leggiLuce(); // restituisce il valore letto da fotoresistore
         bool isLaser(); // restituisce true se il fotorestistore è a contatto con il laser

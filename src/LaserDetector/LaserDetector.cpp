@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include "LaserDetector.h"
 
+LaserDetector::LaserDetector(){
+}
+
 LaserDetector::LaserDetector(int pin){
     pinMode(pin, INPUT);
     _pin = pin;
