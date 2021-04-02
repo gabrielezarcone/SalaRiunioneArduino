@@ -1,17 +1,19 @@
-#include <Laser.h>
-#include <LaserDetector.h>
+#include "src/Laser/Laser.h"
+#include "src/LaserDetector/LaserDetector.h"
+#include "src/LaserDetector/ObstacleAvoid.h"
+#include "src/SensorePassaggio/SensorePassaggio.h"
 
-#define LASER_PIN 6
-#define DETECTOR_PIN A3
+#define LASER_PIN1 6
+#define LASER_PIN2 7
+#define DETECTOR_PIN1 A3
+#define DETECTOR_PIN2 5
 
-Laser laser(LASER_PIN, HIGH);
-LaserDetector laserDetector(DETECTOR_PIN);
+SensorePassaggio sensorePorta(LASER_PIN1, LASER_PIN2, DETECTOR_PIN1, DETECTOR_PIN2);
 
 void setup() {
 }
 
 void loop() {
-  int val = laserDetector.leggiLuce();
-  Serial.println(val);
-  delay(100);
+  sensorePorta.controllaEntrata();
+  //sensorePorta.controllaUscita();
 }
