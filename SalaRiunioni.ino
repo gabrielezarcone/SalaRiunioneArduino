@@ -42,6 +42,15 @@ void setup() {
   
   mylcd.Set_Draw_color(CYAN);
   mylcd.Fill_Rectangle(0,215,480,280);
+
+  mylcd.Set_Draw_color(DARK_CYAN);
+  mylcd.Fill_Rectangle(0,215,100,280);
+  mylcd.Set_Text_colour(BLACK);
+  mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
+  mylcd.Set_Text_Size(3);
+  mylcd.Print_String("16", 10, 240);
+  mylcd.Print_String(":", 41, 240);
+  mylcd.Print_String("30", 53, 240);
   
   mylcd.Set_Draw_color(GREY);
   mylcd.Fill_Rectangle(0,280,480,305);
