@@ -1,12 +1,11 @@
 #include <Arduino.h>
-#include <LCDWIKI_GUI.h> //Core graphics library
-#include <LCDWIKI_KBV.h> //Hardware-specific library
+#include <Adafruit_GFX.h>    // Core graphics library
+#include <MCUFRIEND_kbv.h>   // Hardware-specific library
 
 #include "Schermo.h"
 
 
-Schermo::Schermo()
-    : mylcd(ILI9486,A3,A2,A1,A0,A4) {
+Schermo::Schermo(){
     _statusStanza = 1;
 }
 
@@ -18,9 +17,11 @@ void Schermo::setStatusStanza(int statusStanza){
 
 void Schermo::setup(){
     Serial.begin(9600);
-    mylcd.Init_LCD();
-    mylcd.Set_Rotation(1); // orientazione landscape
-    mylcd.Fill_Screen(BLACK);
+    uint16_t ID = tft.readID();
+    if (ID == 0xD3D3) ID = 0x9481; //force ID if write-only display
+    tft.begin(ID);
+    tft.setRotation(1); // orientazione landscape
+    tft.fillScreen(BLACK);
 }
 
 void Schermo::renderLCD(){
@@ -41,34 +42,21 @@ void Schermo::riquadroInCorso(int yPartenza){
 void Schermo::occupato(int yPartenza, String titoloRiunione){
     // più corto di quello libero perchè deve contenere anche organizzatore
     int altezzaRiquadro = 185; 
-    mylcd.Set_Draw_color(RED);
-    mylcd.Fill_Rectangle(0,yPartenza,480,yPartenza+altezzaRiquadro);
-    mylcd.Set_Text_colour(BLACK);
-    mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
-    mylcd.Set_Text_Size(4);
-    mylcd.Print_String(titoloRiunione, CENTER, yPartenza+80);
+    tft.fillRect(0,yPartenza,480,altezzaRiquadro, RED);
+    printString(titoloRiunione, 0, yPartenza+80, 4, BLACK );
     organizzatore("Luca Verdi", yPartenza+altezzaRiquadro);
 }
 
 void Schermo::libero(int yPartenza){
     int altezzaRiquadro = 210;
-    mylcd.Set_Draw_color(GREEN);
-    mylcd.Fill_Rectangle(0,yPartenza,480,yPartenza+altezzaRiquadro);
-    mylcd.Set_Text_colour(BLACK);
-    mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
-    mylcd.Set_Text_Size(4);
-    mylcd.Print_String("Nessuna riunione", CENTER, yPartenza+80);
-    mylcd.Print_String("in corso", CENTER, yPartenza+120);
+    tft.fillRect(0,yPartenza,480,altezzaRiquadro, GREEN);
+    printString("Nessuna riunione in corso", 0, yPartenza+80, 4, BLACK );
 }
 
 void Schermo::riquadroSuccessivo(int yPartenza){
     int altezzaRiquadro = 65;
-    mylcd.Set_Draw_color(CYAN);
-    mylcd.Fill_Rectangle(0,yPartenza,480,yPartenza+altezzaRiquadro);
-    mylcd.Set_Text_colour(BLACK);
-    mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
-    mylcd.Set_Text_Size(3);
-    mylcd.Print_String("Prossima riunione", 110, yPartenza+25);
+    tft.fillRect(0,yPartenza,480,altezzaRiquadro, CYAN);
+    printString("Prossima riunione", 110, yPartenza+25, 3, BLACK );
     orario(16, 30, yPartenza, DARK_CYAN);
     organizzatore("Mario Rossi", yPartenza+altezzaRiquadro);
 }
@@ -79,24 +67,22 @@ void Schermo::orario(int hh, int mm, int yPartenza, uint16_t color){
     char mmString [2];
     sprintf(hhString,"%d",hh); 
     sprintf(mmString,"%d",mm);
-    mylcd.Set_Draw_color(color);
-    mylcd.Fill_Rectangle(0,yPartenza,100,yPartenza+altezzaRiquadro);
-    mylcd.Set_Text_colour(BLACK);
-    mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
-    mylcd.Set_Text_Size(3);
-    mylcd.Print_String(hhString, 10, yPartenza+25);
-    mylcd.Print_String(":", 41, yPartenza+25);
-    mylcd.Print_String(mmString, 53, yPartenza+25);
+    tft.fillRect(0,yPartenza,100,altezzaRiquadro, color);
+    printString(hhString, 10, yPartenza+25, 3, BLACK );
+    printString(":", 41, yPartenza+25, 3, BLACK );
+    printString(mmString, 53, yPartenza+25, 3, BLACK );
 }
 
 void Schermo::organizzatore(String nome, int yPartenza){
     int altezzaRiquadro = 25;
-    mylcd.Set_Draw_color(GREY);
-    mylcd.Fill_Rectangle(0,yPartenza,480,yPartenza+altezzaRiquadro);
-    mylcd.Set_Text_colour(DARK_GREY);
-    mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
-    mylcd.Set_Text_Size(2);
-    mylcd.Print_String("Organizzatore:", 10, yPartenza+5);
-    mylcd.Set_Text_colour(BLACK);
-    mylcd.Print_String(nome, 180, yPartenza+5);
+    tft.fillRect(0,yPartenza,480,altezzaRiquadro, GREY);
+    printString("Organizzatore:", 10, yPartenza+5, 2, DARK_GREY );
+    printString(nome, 180, yPartenza+5, 2, BLACK );
+}
+
+void Schermo::printString(String str, int xCursor, int yCursor , int size, uint16_t color){
+    tft.setCursor( xCursor, yCursor );
+    tft.setTextColor(color);
+    tft.setTextSize(size);
+    tft.print(str);
 }

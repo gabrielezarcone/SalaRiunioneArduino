@@ -2,8 +2,8 @@
 #define Schermo_h
 
 #include <Arduino.h>
-#include <LCDWIKI_GUI.h> //Core graphics library
-#include <LCDWIKI_KBV.h> //Hardware-specific library
+#include <Adafruit_GFX.h>    // Core graphics library
+#include <MCUFRIEND_kbv.h>   // Hardware-specific library
 
 
 #define BLACK     0x0000
@@ -19,7 +19,7 @@
 class Schermo{
     public: 
         Schermo();
-        LCDWIKI_KBV mylcd;
+        MCUFRIEND_kbv tft;
         void setStatusStanza(int statusStanza);
         void setup();
         void renderLCD();
@@ -29,6 +29,7 @@ class Schermo{
         void riquadroSuccessivo(int yPartenza);
         void orario(int hh, int mm, int yPartenza, uint16_t color);
         void organizzatore(String nome, int yPartenza);
+        void printString(String str, int xCursor, int yCursor , int size, uint16_t color);
     private:
         int _statusStanza; // 0 se stanza libera, 1 se occupata
 };
