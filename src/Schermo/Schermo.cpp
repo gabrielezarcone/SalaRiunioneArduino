@@ -7,7 +7,7 @@
 
 Schermo::Schermo()
     : mylcd(ILI9486,A3,A2,A1,A0,A4) {
-    _statusStanza = 0;
+    _statusStanza = 1;
 }
 
 
@@ -35,14 +35,15 @@ void Schermo::riquadroInCorso(int yPartenza){
 }
 
 void Schermo::occupato(int yPartenza, String titoloRiunione){
-    int altezzaRiquadro = 210;
+    // più corto di quello libero perchè deve contenere anche organizzatore
+    int altezzaRiquadro = 185; 
     mylcd.Set_Draw_color(RED);
     mylcd.Fill_Rectangle(0,yPartenza,480,yPartenza+altezzaRiquadro);
     mylcd.Set_Text_colour(BLACK);
     mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
     mylcd.Set_Text_Size(4);
     mylcd.Print_String(titoloRiunione, 50, yPartenza+80);
-    organizzatore("Mario Rossi", yPartenza+altezzaRiquadro);
+    organizzatore("Luca Verdi", yPartenza+altezzaRiquadro);
 }
 
 void Schermo::libero(int yPartenza){
@@ -93,5 +94,5 @@ void Schermo::organizzatore(String nome, int yPartenza){
     mylcd.Set_Text_Size(2);
     mylcd.Print_String("Organizzatore:", 10, yPartenza+5);
     mylcd.Set_Text_colour(BLACK);
-    mylcd.Print_String("Mario Rossi", 180, yPartenza+5);
+    mylcd.Print_String(nome, 180, yPartenza+5);
 }
