@@ -42,6 +42,10 @@ void setup() {
   
   mylcd.Set_Draw_color(CYAN);
   mylcd.Fill_Rectangle(0,215,480,280);
+  mylcd.Set_Text_colour(BLACK);
+  mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
+  mylcd.Set_Text_Size(3);
+  mylcd.Print_String("Prossima riunione", 110, 240);
 
   mylcd.Set_Draw_color(DARK_CYAN);
   mylcd.Fill_Rectangle(0,215,100,280);
@@ -54,6 +58,12 @@ void setup() {
   
   mylcd.Set_Draw_color(GREY);
   mylcd.Fill_Rectangle(0,280,480,305);
+  mylcd.Set_Text_colour(DARK_CYAN);
+  mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
+  mylcd.Set_Text_Size(2);
+  mylcd.Print_String("Organizzatore:", 10, 285);
+  mylcd.Set_Text_colour(BLACK);
+  mylcd.Print_String("Mario Rossi", 180, 285);
 }
 
 void loop() {
