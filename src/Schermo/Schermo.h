@@ -12,6 +12,7 @@
 #define CYAN      0x779E
 #define DARK_CYAN 0x4CF3
 #define GREY      0xD6BB 
+#define DARK_GREY 0x5AEB 
 #define WHITE     0xFFFF
 
 

@@ -89,7 +89,7 @@ void Schermo::organizzatore(String nome, int yPartenza){
     int altezzaRiquadro = 25;
     mylcd.Set_Draw_color(GREY);
     mylcd.Fill_Rectangle(0,yPartenza,480,yPartenza+altezzaRiquadro);
-    mylcd.Set_Text_colour(DARK_CYAN);
+    mylcd.Set_Text_colour(DARK_GREY);
     mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
     mylcd.Set_Text_Size(2);
     mylcd.Print_String("Organizzatore:", 10, yPartenza+5);
