@@ -33,7 +33,7 @@ void Schermo::riquadroInCorso(int yPartenza){
         libero(yPartenza);
     }
     else{
-        occupato(yPartenza, "Descrizione riunione");
+        occupato(yPartenza, "Descrizione lunga della riunione");
     }
     
 }
@@ -46,7 +46,7 @@ void Schermo::occupato(int yPartenza, String titoloRiunione){
     mylcd.Set_Text_colour(BLACK);
     mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
     mylcd.Set_Text_Size(4);
-    mylcd.Print_String(titoloRiunione, 50, yPartenza+80);
+    mylcd.Print_String(titoloRiunione, CENTER, yPartenza+80);
     organizzatore("Luca Verdi", yPartenza+altezzaRiquadro);
 }
 
@@ -57,8 +57,8 @@ void Schermo::libero(int yPartenza){
     mylcd.Set_Text_colour(BLACK);
     mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
     mylcd.Set_Text_Size(4);
-    mylcd.Print_String("Nessuna riunione", 50, yPartenza+80);
-    mylcd.Print_String("in corso", 140, yPartenza+120);
+    mylcd.Print_String("Nessuna riunione", CENTER, yPartenza+80);
+    mylcd.Print_String("in corso", CENTER, yPartenza+120);
 }
 
 void Schermo::riquadroSuccessivo(int yPartenza){
