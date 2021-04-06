@@ -33,13 +33,13 @@ void setup() {
   mylcd.Fill_Screen(BLACK);
   
   mylcd.Set_Draw_color(GREEN);
-  mylcd.Fill_Rectangle(0,0,480,220);
+  mylcd.Fill_Rectangle(0,0,480,210);
   
   mylcd.Set_Draw_color(CYAN);
-  mylcd.Fill_Rectangle(0,225,480,290);
+  mylcd.Fill_Rectangle(0,215,480,280);
   
   mylcd.Set_Draw_color(GREY);
-  mylcd.Fill_Rectangle(0,290,480,310);
+  mylcd.Fill_Rectangle(0,280,480,305);
 }
 
 void loop() {
