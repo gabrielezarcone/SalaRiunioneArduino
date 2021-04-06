@@ -11,6 +11,10 @@ Schermo::Schermo()
 }
 
 
+void Schermo::setStatusStanza(int statusStanza){
+    _statusStanza = statusStanza;
+}
+
 
 void Schermo::setup(){
     Serial.begin(9600);

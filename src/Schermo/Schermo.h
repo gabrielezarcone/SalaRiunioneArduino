@@ -20,6 +20,7 @@ class Schermo{
     public: 
         Schermo();
         LCDWIKI_KBV mylcd;
+        void setStatusStanza(int statusStanza);
         void setup();
         void renderLCD();
         void riquadroInCorso(int yPartenza);
