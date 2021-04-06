@@ -34,6 +34,11 @@ void setup() {
   
   mylcd.Set_Draw_color(GREEN);
   mylcd.Fill_Rectangle(0,0,480,210);
+  mylcd.Set_Text_colour(BLACK);
+  mylcd.Set_Text_Mode(1); // SFONDO TRASPARENTE
+  mylcd.Set_Text_Size(4);
+  mylcd.Print_String("Nessuna riunione", 50, 80);
+  mylcd.Print_String("in corso", 140, 120);
   
   mylcd.Set_Draw_color(CYAN);
   mylcd.Fill_Rectangle(0,215,480,280);
