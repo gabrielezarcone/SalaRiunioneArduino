@@ -12,6 +12,8 @@ int i = 0;
 
 void setup() {
   lcd.setup();
+  Serial.begin(9600);
+  Serial2.begin(9600);
 }
 
 void loop() {
@@ -21,4 +23,5 @@ void loop() {
   delay(3500);
   lcd.setStatusStanza(i%2);
   i++;
+  Serial2.print("hello");
 }
