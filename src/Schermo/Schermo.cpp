@@ -43,14 +43,15 @@ void Schermo::occupato(int yPartenza, String titoloRiunione){
     // più corto di quello libero perchè deve contenere anche organizzatore
     int altezzaRiquadro = 185; 
     tft.fillRect(0,yPartenza,480,altezzaRiquadro, RED);
-    printString(titoloRiunione, 0, yPartenza+80, 4, BLACK );
+    printCenterString(titoloRiunione, 0, yPartenza+80, 4, BLACK );
     organizzatore("Luca Verdi", yPartenza+altezzaRiquadro);
 }
 
 void Schermo::libero(int yPartenza){
     int altezzaRiquadro = 210;
     tft.fillRect(0,yPartenza,480,altezzaRiquadro, GREEN);
-    printString("Nessuna riunione in corso", 0, yPartenza+80, 4, BLACK );
+    printCenterString("Nessuna riunione", 0, yPartenza+80, 4, BLACK );
+    printCenterString("in corso", 0, yPartenza+120, 4, BLACK );
 }
 
 void Schermo::riquadroSuccessivo(int yPartenza){
@@ -85,4 +86,14 @@ void Schermo::printString(String str, int xCursor, int yCursor , int size, uint1
     tft.setTextColor(color);
     tft.setTextSize(size);
     tft.print(str);
+}
+
+void Schermo::printCenterString(const String buf, int x, int y, int size, uint16_t color){
+    int16_t x1, y1;
+    uint16_t w, h;
+    tft.setTextColor(color);
+    tft.setTextSize(size);
+    tft.getTextBounds(buf, x, y, &x1, &y1, &w, &h); // calcola la lunghezza della stringa
+    tft.setCursor( (tft.width()-w)/2, y );
+    tft.print(buf);
 }

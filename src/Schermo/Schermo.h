@@ -30,6 +30,7 @@ class Schermo{
         void orario(int hh, int mm, int yPartenza, uint16_t color);
         void organizzatore(String nome, int yPartenza);
         void printString(String str, int xCursor, int yCursor , int size, uint16_t color);
+        void printCenterString(const String buf, int x, int y, int size, uint16_t color);
     private:
         int _statusStanza; // 0 se stanza libera, 1 se occupata
 };
