@@ -11,14 +11,6 @@ char receivedString[10];
 
 void setup(){
     Serial1.begin(9600);  
-    Serial.begin(115200);
-    while (!Serial);
-
-    WiFi.mode(WIFI_STA);
-
-    WiFi.begin(ssid, password);
-    
-    Serial.println("Connecting to WiFi SSID: " + String(ssid));
 }
 
 void loop(){

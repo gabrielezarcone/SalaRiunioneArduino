@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "HttpService.h"
+#include "Secrets.h"
 
 #if !( defined(ESP8266) ||  defined(ESP32) )
   #error This code is intended to run on the ESP8266 or ESP32 platform! Please check your Tools->Board setting.
@@ -14,6 +15,16 @@
 #include <AsyncHTTPRequest_Generic.h>           // https://github.com/khoih-prog/AsyncHTTPRequest_Generic
 
 
+void HttpService::setup(){
+    Serial.begin(115200);
+    while (!Serial);
+
+    WiFi.mode(WIFI_STA);
+
+    WiFi.begin(SSID, PASSWORD_WIFI);
+    
+    Serial.println("Connecting to WiFi SSID: " + String(ssid));
+}
 
 void HttpService::sendRequest(String method, String url) {
     // per gestire la risposta usare:
