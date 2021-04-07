@@ -13,7 +13,31 @@ void setup(){
 void loop(){
     if(Serial1.available()){
       receivedString = Serial.read();
-      Serial.println(receivedString); 
     }
-    delay(500);
+
+    if(receivedString=="now") { httpGetPrenotazioneAttuale(); }
+    if(receivedString=="next") { httpGetPrenotazioneSuccessiva(); }
+    if(receivedString=="count") { httpPostCounter(); }
+    if(receivedString=="temp") { httpPostTemperature(); }
 }
+
+void httpGetPrenotazioneAttuale(){
+    // TODO Chimata http a /findPrenotazioneAttuale
+    Serial1.print("Json ricevuto da http");
+}
+void httpGetPrenotazioneSuccessiva(){
+    // TODO Chimata http a /findPrenotazioneSuccessiva 
+    Serial1.print("Json ricevuto da http");
+}
+void httpPostCounter(){
+    while(Serial1.available()){
+        int counter = Serial1.read();
+        // TODO Chimata http a /counter con variabile counter nel body
+    }
+}
+void httpPostTemperature(){
+    while(Serial1.available()){
+        int temperature = Serial1.read();
+        // TODO Chimata http a /temperaqturaStanza  con la temperatura nel body
+    }
+} 
