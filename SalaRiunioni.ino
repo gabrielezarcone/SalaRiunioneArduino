@@ -13,7 +13,7 @@ int i = 0;
 void setup() {
   lcd.setup();
   Serial.begin(9600);
-  Serial2.begin(9600);
+  Serial2.begin(9600); // Serial a cui è collegata la board client wifi
 }
 
 void loop() {
