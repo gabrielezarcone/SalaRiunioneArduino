@@ -47,23 +47,27 @@ void loop(){
 }
 
 void httpGetPrenotazioneAttuale(){
-    // TODO Chimata http a /findPrenotazioneAttuale
+    sendRequest("GET", "/findPrenotazioneAttuale");
+    request.onReadyStateChange(printResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
     Serial1.print("Json ricevuto da http");
 }
 void httpGetPrenotazioneSuccessiva(){
-    // TODO Chimata http a /findPrenotazioneSuccessiva 
+    sendRequest("GET", "/findPrenotazioneSuccessiva");
+    request.onReadyStateChange(printResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
     Serial1.print("Json ricevuto da http");
 }
 void httpPostCounter(){
     while(Serial1.available()){
         int counter = Serial1.read();
-        // TODO Chimata http a /counter con variabile counter nel body
+        sendRequest("POST", "/counter");
+        // TODO inserire counter nel body
     }
 }
 void httpPostTemperature(){
     while(Serial1.available()){
         int temperature = Serial1.read();
-        // TODO Chimata http a /temperaqturaStanza  con la temperatura nel body
+        sendRequest("POST", "/temperaqturaStanza");
+        // TODO inserire temperatura nel body
     }
 } 
 
