@@ -22,3 +22,26 @@ DynamicJsonDocument ResponseParser::parseJson(String jsonString){
         const char* anagrafica = doc["anagrafica"]; 
     */
 }
+
+
+void ResponseParser::checkResponses(){
+    if (Serial2.available()){
+        int command = Serial2.read();
+
+        if (command == NOW) { onNowReceived() }
+        else if(command == NEXT) { onNextReceived() }
+    }
+
+}
+
+void ResponseParser::onNowReceived(){
+    // deve leggere il valore ceh si trova su serial2 dopo il comando
+    // poi deve parsare il json letto
+    // infine aggiornare il display
+}
+
+void ResponseParser::onNextReceived(){
+    // deve leggere il valore ceh si trova su serial2 dopo il comando
+    // poi deve parsare il json letto
+    // infine aggiornare il display
+}
