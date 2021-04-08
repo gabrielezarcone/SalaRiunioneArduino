@@ -15,12 +15,14 @@
 #include <WiFiManager.h>
 #include <asyncHTTPrequest.h>  // https://github.com/boblemaire/asyncHTTPrequest/wiki
 
+#include <ArduinoJson.h>  // https://arduinojson.org/  --- Fornisce serializer/deserializer per JSON --- 
+
 class HttpService{
     public:     
         WiFiManager wifiManager;
         asyncHTTPrequest request;
         void setup();
-        void sendRequest(char* method, char* url);
+        void sendRequest(char* method, char* url, char* body={});
         void printResponseText(void* optParm, asyncHTTPrequest* request, int readyState);
 };
 

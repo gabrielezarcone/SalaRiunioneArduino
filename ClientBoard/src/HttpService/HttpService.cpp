@@ -17,7 +17,7 @@ void HttpService::setup(){
     request.setDebug(true);
 }
 
-void HttpService::sendRequest(char* method, char* url) {
+void HttpService::sendRequest(char* method, char* url, char* body) {
   // per gestire la risposta usare:
   // --- request.onReadyStateChange(funzione) ---
   // dove funzione è solo il nome della funzione da lanciare all'arrivo della risposta con parametri: (void* optParm, AsyncHTTPRequest* request, int readyState)
@@ -30,7 +30,7 @@ void HttpService::sendRequest(char* method, char* url) {
 
     if (requestOpenResult){
       // Only send() if open() returns true, or crash
-      request.send();
+      request.send(body);
     }
     else{
       Serial.println("Can't send bad request");
