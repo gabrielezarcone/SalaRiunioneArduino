@@ -4,6 +4,13 @@
 #include <Arduino.h>
 #include "../HttpService/HttpService.h"
 
+enum Status {
+    NOW,
+    NEXT,
+    COUNT,
+    TEMP
+};
+
 // La classe usa Serial1 per funzionare quindi inizializzarlo nel setup
 class SerialComunication{
     public: 
@@ -13,6 +20,8 @@ class SerialComunication{
         void httpGetPrenotazioneSuccessiva();   // Gestisce la GET verso il server per ricevere la prenotazione successiva
         void httpPostCounter();                 // Gestisce la POST verso il server per inviare il counter
         void httpPostTemperature();             // Gestisce la POST verso il server per inviare la temperatura
+    private:
+        static void _printSerialResponseText(void* optParm, asyncHTTPrequest* request, int readyState);
 };
 
 #endif

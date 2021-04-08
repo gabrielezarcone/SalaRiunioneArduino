@@ -14,5 +14,7 @@ void setup(){
 }
 
 void loop(){
-  serialCom.checkMainBoard();
+  //serialCom.checkMainBoard();
+  serialCom.httpGetPrenotazioneAttuale();
+  delay(1000);
 }

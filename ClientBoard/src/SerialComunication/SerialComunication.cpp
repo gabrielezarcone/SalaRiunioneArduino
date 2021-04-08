@@ -3,24 +3,27 @@
 #include "../HttpService/HttpService.h"
 
 void SerialComunication::checkMainBoard(){
+    
+    int receivedString;
+
     if(Serial1.available()){
-      receivedString = Serial.read();
+        receivedString = Serial.read();
     }
 
-    if(receivedString=="now") { httpGetPrenotazioneAttuale(); }
-    if(receivedString=="next") { httpGetPrenotazioneSuccessiva(); }
-    if(receivedString=="count") { httpPostCounter(); }
-    if(receivedString=="temp") { httpPostTemperature(); }
+    if(receivedString==NOW) { httpGetPrenotazioneAttuale(); }
+    if(receivedString==NEXT) { httpGetPrenotazioneSuccessiva(); }
+    if(receivedString==COUNT) { httpPostCounter(); }
+    if(receivedString==TEMP) { httpPostTemperature(); }
 }
 
 void SerialComunication::httpGetPrenotazioneAttuale(){
-    http.sendRequest("GET", "/findPrenotazioneAttuale");
-    http.request.onReadyStateChange(printResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
+    http.sendRequest("GET", "http://localhost:8050/prenotazione/findPrenotazioneAttuale/arduino1");
+    http.request.onReadyStateChange(SerialComunication::_printSerialResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
     Serial1.print("Json ricevuto da http");
 }
 void SerialComunication::httpGetPrenotazioneSuccessiva(){
     http.sendRequest("GET", "/findPrenotazioneSuccessiva");
-    http.request.onReadyStateChange(printResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
+    http.request.onReadyStateChange(SerialComunication::_printSerialResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
     Serial1.print("Json ricevuto da http");
 }
 void SerialComunication::httpPostCounter(){
@@ -37,3 +40,16 @@ void SerialComunication::httpPostTemperature(){
         // TODO inserire temperatura nel body
     }
 } 
+
+
+void SerialComunication::_printSerialResponseText(void* optParm, asyncHTTPrequest* request, int readyState) {
+  (void) optParm;
+  
+  if (readyState == 4) {
+    Serial.println("\n**************************************");
+    Serial.println(request->responseText());
+    Serial.println("**************************************");
+    
+    request->setDebug(false);
+  }
+}
