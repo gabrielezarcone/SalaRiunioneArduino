@@ -19,13 +19,13 @@ void SerialComunication::checkMainBoard(){
 
 void SerialComunication::httpGetPrenotazioneAttuale(){
     http.sendRequest("GET", "http://192.168.1.136:8050/prenotazione/findPrenotazioneAttuale/arduino1");
-    http.request.onReadyStateChange(SerialComunication::_printSerialResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
+    http.request.onReadyStateChange(SerialComunication::_handlerGetPrenotazioneAttuale);    // TODO da mandare la risposta alla board principale gestendo il JSON
 }
 
 
 void SerialComunication::httpGetPrenotazioneSuccessiva(){
     http.sendRequest("GET", "http://192.168.1.136:8050/prenotazione/findPrenotazioneSuccessiva/arduino1");
-    http.request.onReadyStateChange(SerialComunication::_printSerialResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
+    http.request.onReadyStateChange(SerialComunication::_handlerGetPrenotazioneSuccessiva);    // TODO da mandare la risposta alla board principale gestendo il JSON
 }
 
 
@@ -75,4 +75,14 @@ void SerialComunication::_printSerialResponseText(void* optParm, asyncHTTPreques
     Serial.println(request->responseText());
     request->setDebug(false);
   }
+}
+
+
+static void _handlerGetPrenotazioneAttuale(void* optParm, asyncHTTPrequest* request, int readyState){
+    Serial.println("now");
+    _printSerialResponseText(optParam, request, readyState);
+}
+static void _handlerGetPrenotazioneSuccessiva(void* optParm, asyncHTTPrequest* request, int readyState){
+    Serial.println("next");
+    _printSerialResponseText(optParam, request, readyState);
 }
