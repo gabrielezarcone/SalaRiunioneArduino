@@ -23,6 +23,7 @@ class SerialComunication{
     private:
         static void _printSerialResponseText(void* optParm, asyncHTTPrequest* request, int readyState);
         static void _handlerGetPrenotazioneAttuale(void* optParm, asyncHTTPrequest* request, int readyState);
+        static void _handlerGetPrenotazioneSuccessiva(void* optParm, asyncHTTPrequest* request, int readyState);
 };
 
 #endif
