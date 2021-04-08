@@ -10,7 +10,8 @@ SerialComunication serialCom;
 char receivedString[10];  
 
 void setup(){
-    Serial1.begin(9600);  
+    Serial1.begin(9600); 
+    serialCom.http.setup(); 
 }
 
 void loop(){

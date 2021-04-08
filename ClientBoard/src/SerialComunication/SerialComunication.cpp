@@ -17,9 +17,9 @@ void SerialComunication::checkMainBoard(){
 }
 
 void SerialComunication::httpGetPrenotazioneAttuale(){
-    http.sendRequest("GET", "http://localhost:8050/prenotazione/findPrenotazioneAttuale/arduino1");
+    http.sendRequest("GET", "http://192.168.1.136:8050/prenotazione/findPrenotazioneAttuale/arduino1");
     http.request.onReadyStateChange(SerialComunication::_printSerialResponseText);    // TODO da mandare la risposta alla board principale gestendo il JSON
-    Serial1.print("Json ricevuto da http");
+    Serial.print("Json ricevuto da http");
 }
 void SerialComunication::httpGetPrenotazioneSuccessiva(){
     http.sendRequest("GET", "/findPrenotazioneSuccessiva");

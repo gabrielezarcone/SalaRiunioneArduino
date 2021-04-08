@@ -4,7 +4,7 @@
 void HttpService::setup(){
     Serial.begin(115200);
     while (!Serial);
-    WiFi.mode(WIFI_STA);
+    WiFi.setAutoConnect(true);
     WiFi.begin(SSID_WIFI, PASSWORD_WIFI);
     Serial.println("Connecting to WiFi SSID: " + String(SSID_WIFI));
     while(WiFi.status() != WL_CONNECTED){
