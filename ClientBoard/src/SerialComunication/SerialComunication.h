@@ -3,13 +3,7 @@
 
 #include <Arduino.h>
 #include "../HttpService/HttpService.h"
-
-enum Status {
-    NOW,
-    NEXT,
-    COUNT,
-    TEMP
-};
+#include "../../../src/Comandi.h"
 
 // La classe usa Serial1 per funzionare quindi inizializzarlo nel setup
 class SerialComunication{
