@@ -3,17 +3,19 @@
     Riceve istruzioni dalla board principale (MEGA2560) attraversolo la comunicazione seriale.
 */
 
+#include "src/SerialComunication/SerialComunication.h"
+
+SerialComunication serialCom;
+
 char receivedString[10];  
 
 void setup(){
-    Serial.begin(9600);
-    Serial1.begin(9600);
+    Serial1.begin(9600); 
+    serialCom.http.setup(); 
 }
 
 void loop(){
-    if(Serial1.available()){
-      receivedString = Serial.read();
-      Serial.println(receivedString); 
-    }
-    delay(500);
+  //serialCom.checkMainBoard();
+  serialCom.httpGetPrenotazioneAttuale();
+  delay(1000);
 }
