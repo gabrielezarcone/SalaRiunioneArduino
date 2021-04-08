@@ -29,6 +29,7 @@ void HttpService::sendRequest(char* method, char* url, char* body) {
 
     if (requestOpenResult){
       // Only send() if open() returns true, or crash
+      request.setReqHeader("Content-Type", "application/json");
       if (body == NULL){
         request.send();
       }
