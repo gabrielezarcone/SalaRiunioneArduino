@@ -1,59 +1,50 @@
-#include <Arduino.h>
 #include "HttpService.h"
-#include "Secrets.h"
-
-#if !( defined(ESP8266) ||  defined(ESP32) )
-  #error This code is intended to run on the ESP8266 or ESP32 platform! Please check your Tools->Board setting.
-#endif
-
-#if (ESP8266)
-  #include <ESP8266WiFi.h>
-#elif (ESP32)
-  #include <WiFi.h>
-#endif
-
-#include <AsyncHTTPRequest_Generic.h>           // https://github.com/khoih-prog/AsyncHTTPRequest_Generic
 
 
 void HttpService::setup(){
     Serial.begin(115200);
     while (!Serial);
-
     WiFi.mode(WIFI_STA);
-
-    WiFi.begin(SSID, PASSWORD_WIFI);
-    
-    Serial.println("Connecting to WiFi SSID: " + String(ssid));
+    WiFi.begin(SSID_WIFI, PASSWORD_WIFI);
+    Serial.println("Connecting to WiFi SSID: " + String(SSID_WIFI));
+    while(WiFi.status() != WL_CONNECTED){
+      wifiManager.setDebugOutput(false);
+      wifiManager.setConfigPortalTimeout(180);
+      Serial.println("Connecting with WiFiManager");
+      wifiManager.autoConnect("ESP8266", "ESP8266");
+      yield();
+    }
+    request.setDebug(true);
 }
 
-void HttpService::sendRequest(String method, String url) {
-    // per gestire la risposta usare:
-    // --- request.onReadyStateChange(funzione) ---
-    // dove funzione è solo il nome della funzione da lanciare all'arrivo della risposta con parametri: (void* optParm, AsyncHTTPRequest* request, int readyState)
-    // es. request.onReadyStateChange(printResponseText)
-    static bool requestOpenResult;
+void HttpService::sendRequest(char* method, char* url) {
+  // per gestire la risposta usare:
+  // --- request.onReadyStateChange(funzione) ---
+  // dove funzione è solo il nome della funzione da lanciare all'arrivo della risposta con parametri: (void* optParm, AsyncHTTPRequest* request, int readyState)
+  // es. request.onReadyStateChange(printResponseText)
+  static bool requestOpenResult;
 
-    if (request.readyState() == readyStateUnsent || request.readyState() == readyStateDone){
+  if (request.readyState() == 0 || request.readyState() == 4){
     // Apre la request HTTP:      
     requestOpenResult = request.open(method, url);
 
     if (requestOpenResult){
-        // Only send() if open() returns true, or crash
-        request.send();
+      // Only send() if open() returns true, or crash
+      request.send();
     }
     else{
-        Serial.println("Can't send bad request");
+      Serial.println("Can't send bad request");
     }
-    }
-    else{
+  }
+  else{
     Serial.println("Can't send request");
-    }
+  }
 }
 
-void HttpService::printResponseText(void* optParm, AsyncHTTPRequest* request, int readyState) {
+void HttpService::printResponseText(void* optParm, asyncHTTPrequest* request, int readyState) {
   (void) optParm;
   
-  if (readyState == readyStateDone) {
+  if (readyState == 4) {
     Serial.println("\n**************************************");
     Serial.println(request->responseText());
     Serial.println("**************************************");
