@@ -32,7 +32,7 @@ void SerialComunication::httpGetPrenotazioneSuccessiva(){
 void SerialComunication::httpPostCounter(){
     while(true){
         if (Serial.available()){
-            int counter = Serial1.read();
+            int counter = Serial.read();
 
             String body;
             DynamicJsonDocument doc(1024);
@@ -48,10 +48,19 @@ void SerialComunication::httpPostCounter(){
 
 
 void SerialComunication::httpPostTemperature(){
-    while(Serial1.available()){
-        int temperature = Serial1.read();
-        http.sendRequest("POST", "/temperaturaStanza");
-        // TODO inserire temperatura nel body
+    while(true){
+        if (Serial.available()){
+            int temperature = Serial.read();
+
+            String body;
+            DynamicJsonDocument doc(1024);
+            doc["temp"] = temperature;
+            doc["arduinoID"] = "arduino1";
+            serializeJson(doc, body);
+            
+            http.sendRequest("POST", "http://192.168.1.136:8050/stanza/temperaturaStanza", &body[0]); //inserisce anche il body facoltativo come array di caratteri
+            return;
+        }
     }
 } 
 
