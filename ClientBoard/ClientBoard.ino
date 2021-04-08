@@ -10,12 +10,17 @@ SerialComunication serialCom;
 char receivedString[10];  
 
 void setup(){
-    Serial1.begin(9600); 
-    serialCom.http.setup(); 
+  Serial.begin(9600); 
+  serialCom.http.setup(); 
+  delay(5000);
+  serialCom.httpGetPrenotazioneAttuale();
+  serialCom.httpGetPrenotazioneSuccessiva();
+  //serialCom.httpPostCounter();
+  //Serial.println(1);
+  //serialCom.httpPostTemperature();
+  //Serial.println(21);
 }
 
 void loop(){
   //serialCom.checkMainBoard();
-  serialCom.httpGetPrenotazioneAttuale();
-  delay(1000);
 }

@@ -14,7 +14,6 @@ void HttpService::setup(){
       wifiManager.autoConnect("ESP8266", "ESP8266");
       yield();
     }
-    request.setDebug(true);
 }
 
 void HttpService::sendRequest(char* method, char* url, char* body) {
@@ -30,7 +29,12 @@ void HttpService::sendRequest(char* method, char* url, char* body) {
 
     if (requestOpenResult){
       // Only send() if open() returns true, or crash
-      request.send(body);
+      if (body == NULL){
+        request.send();
+      }
+      else{
+        request.send(body);
+      }
     }
     else{
       Serial.println("Can't send bad request");
