@@ -15,6 +15,8 @@
 #include <WiFiManager.h>
 #include <asyncHTTPrequest.h>  // https://github.com/boblemaire/asyncHTTPrequest/wiki
 
+#include <ArduinoJson.h>  // https://arduinojson.org/  --- Fornisce serializer/deserializer per JSON --- 
+
 class HttpService{
     public:     
         WiFiManager wifiManager;
