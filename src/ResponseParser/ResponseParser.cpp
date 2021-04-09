@@ -55,4 +55,11 @@ void ResponseParser::onNextReceived(){
     // deve leggere il valore ceh si trova su serial2 dopo il comando
     // poi deve parsare il json letto
     // infine aggiornare il display
+    String received = Serial2.readString();
+    DynamicJsonDocument json = parseJson(received);
+    const char* descrizione = json["descrizione"];
+    const char* oraInizio = json["oraInizio"];
+    const char* oraFine = json["oraFine"];
+    const char* anagrafica = json["anagrafica"];
+    lcd.updateNext(descrizione, oraInizio, oraFine, anagrafica);
 }

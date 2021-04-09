@@ -57,21 +57,15 @@ void Schermo::libero(int yPartenza){
 void Schermo::riquadroSuccessivo(int yPartenza){
     int altezzaRiquadro = 65;
     tft.fillRect(0,yPartenza,480,altezzaRiquadro, CYAN);
-    printString("Prossima riunione", 110, yPartenza+25, 3, BLACK );
-    orario(16, 30, yPartenza, DARK_CYAN);
-    organizzatore("Mario Rossi", yPartenza+altezzaRiquadro);
+    printString(_nextDescrizione, 110, yPartenza+25, 3, BLACK );
+    orario(_nextInizio, yPartenza, DARK_CYAN);
+    organizzatore(_nextOrganizzatore, yPartenza+altezzaRiquadro);
 }
 
-void Schermo::orario(int hh, int mm, int yPartenza, uint16_t color){
+void Schermo::orario(String orario, int yPartenza, uint16_t color){
     int altezzaRiquadro = 65;
-    char hhString [2];
-    char mmString [2];
-    sprintf(hhString,"%d",hh); 
-    sprintf(mmString,"%d",mm);
     tft.fillRect(0,yPartenza,100,altezzaRiquadro, color);
-    printString(hhString, 10, yPartenza+25, 3, BLACK );
-    printString(":", 41, yPartenza+25, 3, BLACK );
-    printString(mmString, 53, yPartenza+25, 3, BLACK );
+    printString(orario, 10, yPartenza+25, 3, BLACK );
 }
 
 void Schermo::organizzatore(String nome, int yPartenza){
@@ -105,4 +99,12 @@ void Schermo::updateNow(String descrizione, String oraInizio, String oraFine, St
     _nowInizio = oraInizio;
     _nowFine = oraFine;
     _nowOrganizzatore = anagrafica;
+}
+
+void Schermo::updateNext(String descrizione, String oraInizio, String oraFine, String anagrafica){
+    // aggiorna il riquadro successivo
+    _nextDescrizione = descrizione;
+    _nextInizio = oraInizio;
+    _nextFine = oraFine;
+    _nextOrganizzatore = anagrafica;
 }
