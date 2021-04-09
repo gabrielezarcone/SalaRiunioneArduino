@@ -97,3 +97,7 @@ void Schermo::printCenterString(const String buf, int x, int y, int size, uint16
     tft.setCursor( (tft.width()-w)/2, y );
     tft.print(buf);
 }
+
+void Schermo::updateNow(String descrizione, String oraInizio, String oraFine, String anagrafica){
+    // aggiorna il riquadro in corso
+}

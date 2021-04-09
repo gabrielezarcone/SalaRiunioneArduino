@@ -9,7 +9,7 @@
 
 SensorePassaggio sensorePorta(LASER_PIN1, LASER_PIN2, DETECTOR_PIN1, DETECTOR_PIN2);
 Schermo lcd;
-ResponseParser parser;
+ResponseParser parser(lcd);
 int i = 0;
 
 void setup() {
