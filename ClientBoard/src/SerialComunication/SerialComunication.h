@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "../HttpService/HttpService.h"
-#include "../../../src/Comandi.h"
+#include "../Comandi.h"
 
 // La classe usa Serial1 per funzionare quindi inizializzarlo nel setup
 class SerialComunication{

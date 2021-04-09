@@ -78,11 +78,11 @@ void SerialComunication::_printSerialResponseText(void* optParm, asyncHTTPreques
 }
 
 
-static void _handlerGetPrenotazioneAttuale(void* optParm, asyncHTTPrequest* request, int readyState){
+void SerialComunication::_handlerGetPrenotazioneAttuale(void* optParm, asyncHTTPrequest* request, int readyState){
     Serial.println("now");
-    _printSerialResponseText(optParam, request, readyState);
+    SerialComunication::_printSerialResponseText(optParm, request, readyState);
 }
-static void _handlerGetPrenotazioneSuccessiva(void* optParm, asyncHTTPrequest* request, int readyState){
+void SerialComunication::_handlerGetPrenotazioneSuccessiva(void* optParm, asyncHTTPrequest* request, int readyState){
     Serial.println("next");
-    _printSerialResponseText(optParam, request, readyState);
+    SerialComunication::_printSerialResponseText(optParm, request, readyState);
 }
