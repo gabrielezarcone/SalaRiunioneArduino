@@ -15,6 +15,11 @@
 #define DARK_GREY 0x5AEB 
 #define WHITE     0xFFFF
 
+enum StatusStanza{
+    LIBERO,
+    OCCUPATO
+}
+
 
 class Schermo{
     public: 
@@ -24,7 +29,7 @@ class Schermo{
         void setup();
         void renderLCD();
         void riquadroInCorso(int yPartenza);
-        void occupato(int yPartenza, String titoloRiunione);
+        void occupato(int yPartenza);
         void libero(int yPartenza);
         void riquadroSuccessivo(int yPartenza);
         void orario(int hh, int mm, int yPartenza, uint16_t color);
@@ -34,6 +39,14 @@ class Schermo{
         void updateNow(String descrizione, String oraInizio, String oraFine, String anagrafica);
     private:
         int _statusStanza; // 0 se stanza libera, 1 se occupata
+        String _nowDescrizione;
+        String _nowInizio;
+        String _nowFine;
+        String _nowOrganizzatore;
+        String _nextDescrizione;
+        String _nextInizio;
+        String _nextFine;
+        String _nextOrganizzatore;
 };
 
 #endif

@@ -6,7 +6,7 @@
 
 
 Schermo::Schermo(){
-    _statusStanza = 1;
+    _statusStanza = LIBERO;
 }
 
 
@@ -30,21 +30,21 @@ void Schermo::renderLCD(){
 }
 
 void Schermo::riquadroInCorso(int yPartenza){
-    if (_statusStanza == 0){
+    if (_statusStanza == LIBERO){
         libero(yPartenza);
     }
     else{
-        occupato(yPartenza, "Descrizione lunga della riunione");
+        occupato(yPartenza);
     }
     
 }
 
-void Schermo::occupato(int yPartenza, String titoloRiunione){
+void Schermo::occupato(int yPartenza){
     // più corto di quello libero perchè deve contenere anche organizzatore
     int altezzaRiquadro = 185; 
     tft.fillRect(0,yPartenza,480,altezzaRiquadro, RED);
-    printCenterString(titoloRiunione, 0, yPartenza+80, 4, BLACK );
-    organizzatore("Luca Verdi", yPartenza+altezzaRiquadro);
+    printCenterString(_nowDescrizione, 0, yPartenza+80, 4, BLACK );
+    organizzatore(_nowOrganizzatore, yPartenza+altezzaRiquadro);
 }
 
 void Schermo::libero(int yPartenza){
@@ -100,4 +100,9 @@ void Schermo::printCenterString(const String buf, int x, int y, int size, uint16
 
 void Schermo::updateNow(String descrizione, String oraInizio, String oraFine, String anagrafica){
     // aggiorna il riquadro in corso
+    _statusStanza = OCCUPATO;
+    _nowDescrizione = descrizione;
+    _nowInizio = oraInizio;
+    _nowFine = oraFine;
+    _nowOrganizzatore = anagrafica;
 }
