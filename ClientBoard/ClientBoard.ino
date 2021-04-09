@@ -15,13 +15,8 @@ char receivedString[10];
 void setup(){
   Serial.begin(9600); 
   serialCom.http.setup(); 
-  delay(5000);
-  serialCom.httpGetPrenotazioneAttuale();
-  serialCom.httpGetPrenotazioneSuccessiva();
-  serialCom.httpPostCounter();
-  //serialCom.httpPostTemperature();
 }
 
 void loop(){
-  //serialCom.checkMainBoard();
+  serialCom.checkMainBoard();
 }

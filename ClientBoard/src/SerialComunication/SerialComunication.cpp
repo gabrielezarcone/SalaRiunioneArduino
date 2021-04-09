@@ -32,7 +32,14 @@ void SerialComunication::httpGetPrenotazioneSuccessiva(){
 void SerialComunication::httpPostCounter(){
     while(true){
         if (Serial.available()){
+
             int counter = Serial.read();
+            if(counter == 43){ // ASCII per +
+                counter = 1;
+            }
+            else if (counter == 45){ // ASCII per -
+                counter = -1;
+            }
 
             String body;
             DynamicJsonDocument doc(1024);

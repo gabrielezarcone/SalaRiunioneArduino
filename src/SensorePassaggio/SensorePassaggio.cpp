@@ -14,7 +14,7 @@ void SensorePassaggio::controllaEntrata(){
     Serial.println("Controllo entrata");
     if (stato1(detector1, detector2)){
       Serial2.println(COUNT);
-      Serial2.println(1);
+      Serial2.println("+");
     }
   }
   
@@ -25,7 +25,7 @@ void SensorePassaggio::controllaUscita(){
     Serial.println("Controllo uscita");
     if (stato1(detector2, detector1)){
       Serial2.println(COUNT);
-      Serial2.println(-1);
+      Serial2.println("-");
     }
   }
 }
