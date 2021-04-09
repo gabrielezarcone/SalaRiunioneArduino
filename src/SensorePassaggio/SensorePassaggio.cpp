@@ -1,8 +1,3 @@
-#include <Arduino.h>
-
-#include "../Laser/Laser.h"
-#include "../LaserDetector/LaserDetector.h"
-
 #include "SensorePassaggio.h"
 
 SensorePassaggio::SensorePassaggio(int pinLaser1, int pinLaser2, int pinDetector1, int pinDetector2) 
@@ -18,7 +13,8 @@ void SensorePassaggio::controllaEntrata(){
   if (detector1.isBlack()){
     Serial.println("Controllo entrata");
     if (stato1(detector1, detector2)){
-      Serial.println("Entrata");
+      Serial2.println(COUNT);
+      Serial2.println(1);
     }
   }
   
@@ -28,7 +24,8 @@ void SensorePassaggio::controllaUscita(){
   if (detector2.isBlack()){
     Serial.println("Controllo uscita");
     if (stato1(detector2, detector1)){
-      Serial.println("Uscita");
+      Serial2.println(COUNT);
+      Serial2.println(-1);
     }
   }
 }

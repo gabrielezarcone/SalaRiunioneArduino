@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "../Laser/Laser.h"
 #include "../LaserDetector/LaserDetector.h"
+#include "../Comandi.h"
 
 class SensorePassaggio{
     public: 
