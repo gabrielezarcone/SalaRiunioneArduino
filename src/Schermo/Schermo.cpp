@@ -7,6 +7,7 @@
 
 Schermo::Schermo(){
     _statusStanza = LIBERO;
+    _nowDescrizione = "Descrizione lunga lunga lunga";
 }
 
 
@@ -43,7 +44,7 @@ void Schermo::occupato(int yPartenza){
     // più corto di quello libero perchè deve contenere anche organizzatore
     int altezzaRiquadro = 185; 
     tft.fillRect(0,yPartenza,480,altezzaRiquadro, RED);
-    printCenterString(_nowDescrizione, 0, yPartenza+80, 4, BLACK );
+    printCenterString(_nowDescrizione, 0, yPartenza+80, 4, WHITE );
     organizzatore(_nowOrganizzatore, yPartenza+altezzaRiquadro);
 }
 

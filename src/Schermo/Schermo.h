@@ -7,8 +7,8 @@
 
 
 #define BLACK     0x0000
-#define RED       0xD28C
-#define GREEN     0x6DC9
+#define RED       0xF800
+#define GREEN     0x07E0
 #define CYAN      0x779E
 #define DARK_CYAN 0x4CF3
 #define GREY      0xD6BB 
