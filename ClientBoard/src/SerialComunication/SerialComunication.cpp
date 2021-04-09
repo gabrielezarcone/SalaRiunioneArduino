@@ -3,17 +3,18 @@
 #include "../HttpService/HttpService.h"
 
 void SerialComunication::checkMainBoard(){
-    
-    int receivedString;
 
-    if(Serial1.available()){
-        receivedString = Serial.read();
+    char receivedByte[1024];
+
+    if(Serial.available()){
+        Serial.readBytes(receivedByte, 1024);
+        int receivedInt = atoi(receivedByte);
+
+        if(receivedInt==NOW) { httpGetPrenotazioneAttuale(); }
+        if(receivedInt==NEXT) { httpGetPrenotazioneSuccessiva(); }
+        if(receivedInt==COUNT) { httpPostCounter(); }
+        if(receivedInt==TEMP) { httpPostTemperature(); }
     }
-
-    if(receivedString==NOW) { httpGetPrenotazioneAttuale(); }
-    if(receivedString==NEXT) { httpGetPrenotazioneSuccessiva(); }
-    if(receivedString==COUNT) { httpPostCounter(); }
-    if(receivedString==TEMP) { httpPostTemperature(); }
 }
 
 
@@ -41,7 +42,9 @@ void SerialComunication::httpPostCounter(){
     while(true){
         if (Serial.available()){
 
-            int counter = Serial.read();
+            char receivedByte[1024];
+            Serial.readBytes(receivedByte, 1024);
+            int counter = atoi(receivedByte);
             if(counter == 43){ // ASCII per +
                 counter = 1;
             }
@@ -69,7 +72,10 @@ void SerialComunication::httpPostCounter(){
 void SerialComunication::httpPostTemperature(){
     while(true){
         if (Serial.available()){
-            int temperature = Serial.read();
+
+            char receivedByte[1024];
+            Serial.readBytes(receivedByte, 1024);
+            int temperature = atoi(receivedByte);
 
             String body;
             DynamicJsonDocument doc(1024);
@@ -99,10 +105,10 @@ void SerialComunication::_printSerialResponseText(void* optParm, asyncHTTPreques
 
 
 void SerialComunication::_handlerGetPrenotazioneAttuale(void* optParm, asyncHTTPrequest* request, int readyState){
-    Serial.println("now");
+    Serial.println(NOW);
     SerialComunication::_printSerialResponseText(optParm, request, readyState);
 }
 void SerialComunication::_handlerGetPrenotazioneSuccessiva(void* optParm, asyncHTTPrequest* request, int readyState){
-    Serial.println("next");
+    Serial.println(NEXT);
     SerialComunication::_printSerialResponseText(optParm, request, readyState);
 }

@@ -8,12 +8,10 @@
 
 #include "src/SerialComunication/SerialComunication.h"
 
-SerialComunication serialCom;
-
-char receivedString[10];  
+SerialComunication serialCom;  
 
 void setup(){
-  Serial.begin(9600); 
+  Serial.begin(115200); 
   serialCom.http.setup(); 
 }
 

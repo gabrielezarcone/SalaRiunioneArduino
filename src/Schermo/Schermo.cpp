@@ -17,7 +17,6 @@ void Schermo::setStatusStanza(int statusStanza){
 
 
 void Schermo::setup(){
-    Serial.begin(9600);
     uint16_t ID = tft.readID();
     if (ID == 0xD3D3) ID = 0x9481; //force ID if write-only display
     tft.begin(ID);

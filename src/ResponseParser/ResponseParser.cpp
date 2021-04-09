@@ -43,6 +43,7 @@ void ResponseParser::onNowReceived(){
     // poi deve parsare il json letto
     // infine aggiornare il display
     String received = Serial2.readString();
+    Serial.println(received);
     DynamicJsonDocument json = parseJson(received);
     const char* descrizione = json["descrizione"];
     const char* oraInizio = json["oraInizio"];
@@ -56,6 +57,7 @@ void ResponseParser::onNextReceived(){
     // poi deve parsare il json letto
     // infine aggiornare il display
     String received = Serial2.readString();
+    Serial.println(received);
     DynamicJsonDocument json = parseJson(received);
     const char* descrizione = json["descrizione"];
     const char* oraInizio = json["oraInizio"];
