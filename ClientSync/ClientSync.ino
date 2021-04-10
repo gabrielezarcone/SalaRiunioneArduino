@@ -20,10 +20,6 @@ void setup () {
   Serial.begin(115200);
   // Serial.setDebugOutput(true);
 
-  Serial.println();
-  Serial.println();
-  Serial.println();
-
   for (uint8_t t = 4; t > 0; t--) {
     Serial.printf("[SETUP] WAIT %d...\n", t);
     Serial.flush();
@@ -36,7 +32,6 @@ void setup () {
 }
  
 void loop() {
-  Serial.println("ready");
   if (Serial.available()){
     String endpoint = Serial.readString();
     sendHttpRequest("GET", endpoint, "");
@@ -59,7 +54,7 @@ void sendHttpRequest(char* method, String endpoint, String body){
     url = url + ":" + SERVER_PORT + endpoint;
     
     if (http.begin(client, url)) {  // HTTP
-      Serial.print("[HTTP] GET...");
+      //Serial.print("[HTTP] GET...");
       Serial.println(url);
       // start connection and send HTTP header
       int httpCode = http.sendRequest(method, body);
@@ -85,11 +80,4 @@ void sendHttpRequest(char* method, String endpoint, String body){
       Serial.printf("[HTTP] Unable to connect\n");
     }
   }
-}
-
-char* concatBaseAndEndpoint(char* endpoint){
-  char* url;
-  strcpy(url, SERVER_URL);
-  strcat(url, endpoint);
-  return url;
 }
