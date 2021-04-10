@@ -38,22 +38,18 @@ void setup () {
 void loop() {
   Serial.println("ready");
   if (Serial.available()){
-    //Serial.readBytes(receivedByte, 1024);
-    //char url[] = "http://jsonplaceholder.typicode.com/users/";
-    //strcat(url, receivedByte);
-    //String urlString(url); // converte char* in String
     String url = "http://jsonplaceholder.typicode.com/users/";
     String num = Serial.readString();
-    getRequest(url+num);
+    sendHttpRequest("GET", url+num, "");
   }
-  delay(3000);   
+  delay(2000);   
 
 }
 
 
 // --------------------------------------------------------------------------------------------------------
 
-void getRequest(String url){
+void sendHttpRequest(char* method, String url, String payload){
   if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
     
     WiFiClient client;
@@ -66,7 +62,7 @@ void getRequest(String url){
       Serial.print(url);
       Serial.print("--\n");
       // start connection and send HTTP header
-      int httpCode = http.GET();
+      int httpCode = http.sendRequest(method, payload);
 
       // httpCode will be negative on error
       if (httpCode > 0) {
@@ -93,7 +89,7 @@ void getRequest(String url){
 
 char* concatBaseAndEndpoint(char* endpoint){
   char* url;
-  strcpy(url, BASE_URL);
+  strcpy(url, SERVER_URL);
   strcat(url, endpoint);
   return url;
 }
