@@ -27,7 +27,7 @@ void setup () {
   for (uint8_t t = 4; t > 0; t--) {
     Serial.printf("[SETUP] WAIT %d...\n", t);
     Serial.flush();
-    delay(1000);
+    delay(200);
   }
 
   WiFi.mode(WIFI_STA);
@@ -38,9 +38,8 @@ void setup () {
 void loop() {
   Serial.println("ready");
   if (Serial.available()){
-    String url = "http://jsonplaceholder.typicode.com/users/";
-    String num = Serial.readString();
-    sendHttpRequest("GET", url+num, "");
+    String endpoint = Serial.readString();
+    sendHttpRequest("GET", endpoint, "");
   }
   delay(2000);   
 
@@ -49,20 +48,21 @@ void loop() {
 
 // --------------------------------------------------------------------------------------------------------
 
-void sendHttpRequest(char* method, String url, String payload){
+void sendHttpRequest(char* method, String endpoint, String body){
   if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
     
     WiFiClient client;
     HTTPClient http;
     
-    url.trim(); // Importante! altrimenti la richiesta fallisce
+    endpoint.trim(); // Importante! altrimenti la richiesta fallisce
+    String url(SERVER_URL);  // Converte SERVER_URL da char[] a String
+    url = url + ":" + SERVER_PORT + endpoint;
     
     if (http.begin(client, url)) {  // HTTP
       Serial.print("[HTTP] GET...");
-      Serial.print(url);
-      Serial.print("--\n");
+      Serial.println(url);
       // start connection and send HTTP header
-      int httpCode = http.sendRequest(method, payload);
+      int httpCode = http.sendRequest(method, body);
 
       // httpCode will be negative on error
       if (httpCode > 0) {
