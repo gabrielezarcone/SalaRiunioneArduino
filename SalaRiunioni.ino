@@ -11,6 +11,8 @@
 SensorePassaggio sensorePorta(LASER_PIN1, LASER_PIN2, DETECTOR_PIN1, DETECTOR_PIN2);
 Schermo lcd;
 ResponseParser parser(lcd);
+unsigned long startTime = millis();
+unsigned long time = 0;
 
 void setup() {
   lcd.setup();
@@ -22,6 +24,7 @@ void setup() {
 }
 
 void loop() {
+  time = millis();
   sensorePorta.controllaEntrata();
   sensorePorta.controllaUscita();
   //parser.checkResponses();
@@ -29,6 +32,9 @@ void loop() {
     String serial2Str = Serial2.readString();
     Serial.println(serial2Str);
   }
-  //delay(2000);
-  //Serial2.write("/stanze/stanza");
+  if (time-startTime > 9000){
+    Serial.println(time);
+    Serial2.println("/stanze/stanza");
+    startTime = millis();
+  }
 }

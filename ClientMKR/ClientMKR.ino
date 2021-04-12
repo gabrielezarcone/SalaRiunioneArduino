@@ -77,8 +77,8 @@ void setup() {
 
 void loop() {
   //Serial.println("ready...");
-  while(Serial.available()){
-    String endpoint = Serial.readString();
+  while(Serial1.available()){
+    String endpoint = Serial1.readString();
     int err = sendRequest("GET", endpoint);
     if(err==0){
       Serial.println("Richiesta HTTP effettuata con successo");
