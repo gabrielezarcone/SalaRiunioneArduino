@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <WiFiNINA.h>
+#include <ArduinoHttpClient.h>
 
 #include "Secrets.h"
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
@@ -13,7 +14,8 @@ int status = WL_IDLE_STATUS;
 // with the IP address and port of the server
 // that you want to connect to (port 80 is default for HTTP):
 
-WiFiClient client;
+WiFiClient wifi;
+HttpClient client = HttpClient(wifi, SERVER_URL, SERVER_PORT);
 
 void setup() {
 
@@ -77,7 +79,14 @@ void loop() {
   //Serial.println("ready...");
   while(Serial.available()){
     String endpoint = Serial.readString();
-    sendRequest("GET", endpoint);
+    int err = sendRequest("GET", endpoint);
+    if(err==0){
+      Serial.println("Richiesta HTTP effettuata con successo");
+    }
+    else{
+      
+      Serial.println("Richiesta HTTP fallita");
+    }
   }
   checkResponse();
 }
@@ -85,33 +94,18 @@ void loop() {
 void checkResponse(){
   // if there are incoming bytes available
   // from the server, read them and print them:
-  while (client.available()) {
-    char c = client.read();
-    Serial.write(c);
-    Serial1.write(c);
-  }
-  // if the server's disconnected, stop the client:
-  if (!client.connected()) {
-    //Serial.println();
-    //Serial.println("disconnecting from server.");
-    client.stop();
+  if (client.available()) {
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+    Serial.println(statusCode);
+    Serial.println(response);
+    Serial1.println(response);
   }
 }
 
-void sendRequest(String method, String endpoint){
-  // if you get a connection, report back via serial:
-  if (client.connect(SERVER_URL, SERVER_PORT)) {
-    //Serial.println("connected to server: ");
-
-    // Make a HTTP request:
-    endpoint.trim();
-    String request = method + " " + endpoint + " HTTP/1.1";
-    client.println(request);
-    client.print("Host: ");
-    client.println(SERVER_URL);
-    client.println("Connection: close");
-    client.println();
-  }
+int sendRequest(String method, String endpoint){
+  endpoint.trim();
+  return client.startRequest(endpoint.c_str(), method.c_str());
 }
 
 void printWifiStatus() {
