@@ -71,22 +71,7 @@ void setup() {
   Serial.print("\nStarting connection to server...");
   Serial.println(SERVER_URL);
 
-  // if you get a connection, report back via serial:
-
-  if (client.connect(SERVER_URL, SERVER_PORT)) {
-    Serial.println("connected to server: ");
-
-    // Make a HTTP request:
-
-    client.println("GET /stanza/stanze HTTP/1.1");
-
-    client.print("Host: ");
-    client.println(SERVER_URL);
-
-    client.println("Connection: close");
-
-    client.println();
-  }
+  sendRequest("GET", "/stanza/stanze");
 }
 
 void loop() {
@@ -117,6 +102,24 @@ void loop() {
 
     while (true);
 
+  }
+}
+
+void sendRequest(String method, String endpoint){
+  // if you get a connection, report back via serial:
+  if (client.connect(SERVER_URL, SERVER_PORT)) {
+    Serial.println("connected to server: ");
+
+    // Make a HTTP request:
+    String request = method + " " + endpoint + " HTTP/1.1";
+    client.println(request);
+
+    client.print("Host: ");
+    client.println(SERVER_URL);
+
+    client.println("Connection: close");
+
+    client.println();
   }
 }
 
