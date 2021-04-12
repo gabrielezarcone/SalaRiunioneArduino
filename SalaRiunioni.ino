@@ -14,9 +14,9 @@ ResponseParser parser(lcd);
 
 void setup() {
   lcd.setup();
-  Serial.begin(115200);
+  Serial.begin(9600);
   delay(200);
-  Serial2.begin(115200); // Serial a cui è collegata la board client wifi
+  Serial2.begin(9600); // Serial a cui è collegata la board client wifi
   delay(200);
   lcd.renderLCD();
 }
@@ -26,10 +26,9 @@ void loop() {
   sensorePorta.controllaUscita();
   //parser.checkResponses();
   while (Serial2.available()){
-    Serial.println("check");
     String serial2Str = Serial2.readString();
     Serial.println(serial2Str);
   }
-  delay(2000);
+  //delay(2000);
   //Serial2.write("/stanze/stanza");
 }

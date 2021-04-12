@@ -20,6 +20,7 @@ void setup() {
   //Initialize serial and wait for port to open:
 
   Serial.begin(9600);
+  Serial1.begin(9600); // Pin 13 e 14 del MKR
 
   while (!Serial) {
 
@@ -70,55 +71,45 @@ void setup() {
 
   Serial.print("\nStarting connection to server...");
   Serial.println(SERVER_URL);
-
-  sendRequest("GET", "/stanza/stanze");
 }
 
 void loop() {
-
-  // if there are incoming bytes available
-
-  // from the server, read them and print them:
-
-  while (client.available()) {
-
-    char c = client.read();
-
-    Serial.write(c);
-
+  //Serial.println("ready...");
+  while(Serial.available()){
+    String endpoint = Serial.readString();
+    sendRequest("GET", endpoint);
   }
+  checkResponse();
+}
 
+void checkResponse(){
+  // if there are incoming bytes available
+  // from the server, read them and print them:
+  while (client.available()) {
+    char c = client.read();
+    Serial.write(c);
+    Serial1.write(c);
+  }
   // if the server's disconnected, stop the client:
-
   if (!client.connected()) {
-
-    Serial.println();
-
-    Serial.println("disconnecting from server.");
-
+    //Serial.println();
+    //Serial.println("disconnecting from server.");
     client.stop();
-
-    // do nothing forevermore:
-
-    while (true);
-
   }
 }
 
 void sendRequest(String method, String endpoint){
   // if you get a connection, report back via serial:
   if (client.connect(SERVER_URL, SERVER_PORT)) {
-    Serial.println("connected to server: ");
+    //Serial.println("connected to server: ");
 
     // Make a HTTP request:
+    endpoint.trim();
     String request = method + " " + endpoint + " HTTP/1.1";
     client.println(request);
-
     client.print("Host: ");
     client.println(SERVER_URL);
-
     client.println("Connection: close");
-
     client.println();
   }
 }
