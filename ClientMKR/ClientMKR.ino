@@ -8,10 +8,6 @@ char pass[] = PASSWORD_WIFI;    // your network password (use for WPA, or use as
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
-// if you don't want to use DNS (and reduce your sketch size)
-// use the numeric IP instead of the name for the server:
-//IPAddress server(74,125,232,128);  // numeric IP for Google (no DNS)
-char server[] = "www.google.com";    // name address for Google (using DNS)
 
 // Initialize the Ethernet client library
 // with the IP address and port of the server
@@ -63,9 +59,8 @@ void setup() {
 
     status = WiFi.begin(ssid, pass);
 
-    // wait 10 seconds for connection:
-
-    delay(10000);
+    // wait 5 seconds for connection:
+    delay(5000);
 
   }
 
@@ -73,24 +68,24 @@ void setup() {
 
   printWifiStatus();
 
-  Serial.println("\nStarting connection to server...");
+  Serial.print("\nStarting connection to server...");
+  Serial.println(SERVER_URL);
 
   // if you get a connection, report back via serial:
 
-  if (client.connect(server, 80)) {
-
-    Serial.println("connected to server");
+  if (client.connect(SERVER_URL, SERVER_PORT)) {
+    Serial.println("connected to server: ");
 
     // Make a HTTP request:
 
-    client.println("GET /search?q=arduino HTTP/1.1");
+    client.println("GET /stanza/stanze HTTP/1.1");
 
-    client.println("Host: www.google.com");
+    client.print("Host: ");
+    client.println(SERVER_URL);
 
     client.println("Connection: close");
 
     client.println();
-
   }
 }
 
