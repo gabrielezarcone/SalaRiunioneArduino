@@ -16,6 +16,7 @@ int status = WL_IDLE_STATUS;
 
 WiFiClient wifi;
 HttpClient client = HttpClient(wifi, SERVER_URL, SERVER_PORT);
+String endpoint = "";
 
 void setup() {
 
@@ -35,51 +36,61 @@ void setup() {
 }
 
 void loop() {
-  //Serial.println("ready...");
-  if (status != WL_CONNECTED){
-    connettiWifi();
-  }
-  while(Serial1.available()){
-    String endpoint = Serial1.readString();
+  //Serial1.println("ready...");
+  while(Serial.available()){
+    Serial.println("Serial disponibile");
+    endpoint = Serial.readStringUntil('\n');
     int err = sendRequest("GET", endpoint);
     if(err==0){
       Serial.println("Richiesta HTTP effettuata con successo");
     }
-    else{
-      
+    else{  
       Serial.println("Richiesta HTTP fallita");
     }
   }
-  checkResponse();
+  delay(500);
 }
 
 void checkResponse(){
   // if there are incoming bytes available
   // from the server, read them and print them:
-  if (client.available()) {
-    int statusCode = client.responseStatusCode();
-    String response = client.responseBody();
-    Serial.println(statusCode);
-    Serial.println(response);
-    Serial1.println(response);
+  Serial.print("Attesa risposta...");
+  while (!client.available()) {
+    Serial.print(".");
   }
+  Serial.println("");
+  int statusCode = client.responseStatusCode();
+  String response = client.responseBody();
+  Serial.print("status: ");
+  Serial.println(statusCode);
+  Serial.println(response);
+  Serial1.println(endpoint);
+  Serial1.println(response);
+  delay(500);
 }
 
-int sendRequest(String method, String endpoint){
-  endpoint.trim();
-  return client.startRequest(endpoint.c_str(), method.c_str());
+int sendRequest(String method, String endpointUrl){
+  Serial.println("Inizio request");
+  endpointUrl.trim();
+  
+  int str_len = endpointUrl.length() + 1; 
+  char endpointChar[str_len];
+  endpointUrl.toCharArray(endpointChar, str_len);
+
+  Serial.print(endpointChar);
+  Serial.println("---");
+  int err = client.get(endpointChar);
+  checkResponse();
+  Serial.println("fine request");
+  return err;
 }
 
 void connettiWifi(){
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE) {
-
     Serial.println("Communication with WiFi module failed!");
-
     // don't continue
-
     while (true);
-
   }
 
   String fv = WiFi.firmwareVersion();
