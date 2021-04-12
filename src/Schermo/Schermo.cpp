@@ -7,7 +7,6 @@
 
 Schermo::Schermo(){
     _statusStanza = LIBERO;
-    _nowDescrizione = "Descrizione lunga lunga lunga";
 }
 
 
@@ -25,6 +24,13 @@ void Schermo::setup(){
 }
 
 void Schermo::renderLCD(){
+    Serial.println("sono dentro lo schermo");
+    Serial.print("descrizione private: ");
+    Serial.println(_nowDescrizione);
+    Serial.println(_nowInizio);
+    Serial.println(_nowFine);
+    Serial.println(_nowOrganizzatore);
+    Serial.println(_statusStanza);
     riquadroInCorso(0); // questo riquadro mostra le info della riunione in corso
     riquadroSuccessivo(215); // questo riquadro mostra le info della prossima riunione
 }
@@ -92,13 +98,21 @@ void Schermo::printCenterString(const String buf, int x, int y, int size, uint16
     tft.print(buf);
 }
 
-void Schermo::updateNow(String descrizione, String oraInizio, String oraFine, String anagrafica){
+void Schermo::updateNow(String descrizione, String oraInizio, String oraFine, String anagrafica, bool isLibero){
     // aggiorna il riquadro in corso
-    _statusStanza = OCCUPATO;
+    if (isLibero){
+        _statusStanza = LIBERO;
+    }
+    else{
+        _statusStanza = OCCUPATO;
+    }
+    Serial.print("descrizione updateNow: ");
+    Serial.println(descrizione);
     _nowDescrizione = descrizione;
     _nowInizio = oraInizio;
     _nowFine = oraFine;
     _nowOrganizzatore = anagrafica;
+    renderLCD();
 }
 
 void Schermo::updateNext(String descrizione, String oraInizio, String oraFine, String anagrafica){
@@ -107,4 +121,5 @@ void Schermo::updateNext(String descrizione, String oraInizio, String oraFine, S
     _nextInizio = oraInizio;
     _nextFine = oraFine;
     _nextOrganizzatore = anagrafica;
+    renderLCD();
 }

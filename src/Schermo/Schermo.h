@@ -36,7 +36,7 @@ class Schermo{
         void organizzatore(String nome, int yPartenza);
         void printString(String str, int xCursor, int yCursor , int size, uint16_t color);
         void printCenterString(const String buf, int x, int y, int size, uint16_t color);
-        void updateNow(String descrizione, String oraInizio, String oraFine, String anagrafica);
+        void updateNow(String descrizione, String oraInizio, String oraFine, String anagrafica, bool isLibero);
         void updateNext(String descrizione, String oraInizio, String oraFine, String anagrafica);
     private:
         int _statusStanza; 

@@ -5,10 +5,11 @@ ResponseParser::ResponseParser(Schermo schermo){
 }
 
 DynamicJsonDocument ResponseParser::parseJson(String jsonString){
-    DynamicJsonDocument doc(1024);
+    DynamicJsonDocument doc(2048);
     // converte la String un char array
-    char* json;
-    json = &jsonString[0];
+    int str_len = jsonString.length() + 1; 
+    const char json[str_len];
+    jsonString.toCharArray(json, str_len);
     // ------------------------
     DeserializationError error = deserializeJson(doc, json);
     // Test if parsing succeeds.
@@ -29,34 +30,35 @@ DynamicJsonDocument ResponseParser::parseJson(String jsonString){
 
 
 void ResponseParser::checkResponses(){
-    if (Serial2.available()){
-        int command = Serial2.read();
-
-        if (command == NOW) { onNowReceived(); }
-        else if(command == NEXT) { onNextReceived(); }
-    }
-
 }
 
-void ResponseParser::onNowReceived(){
+void ResponseParser::onNowReceived(Schermo schermo){
     // deve leggere il valore ceh si trova su serial2 dopo il comando
     // poi deve parsare il json letto
     // infine aggiornare il display
-    String received = Serial2.readString();
+    String received = Serial2.readStringUntil('\n');
     Serial.println(received);
+    received.trim();
     DynamicJsonDocument json = parseJson(received);
-    const char* descrizione = json["descrizione"];
-    const char* oraInizio = json["oraInizio"];
-    const char* oraFine = json["oraFine"];
-    const char* anagrafica = json["anagrafica"];
-    lcd.updateNow(descrizione, oraInizio, oraFine, anagrafica);
+    const char* descrizione = json["descrizione"].as<char*>();
+    const char* oraInizio = json["oraInizio"].as<char*>();
+    const char* oraFine = json["oraFine"].as<char*>();
+    const char* anagrafica = json["anagrafica"].as<char*>();
+    const char* message = json["message"].as<char*>();
+    bool isLibero = false;
+    if(message!=NULL){
+        isLibero=true;
+    }
+    Serial.print("descrizione json: ");
+    Serial.println(descrizione);
+    schermo.updateNow(descrizione, oraInizio, oraFine, anagrafica, isLibero);
 }
 
 void ResponseParser::onNextReceived(){
     // deve leggere il valore ceh si trova su serial2 dopo il comando
     // poi deve parsare il json letto
     // infine aggiornare il display
-    String received = Serial2.readString();
+    String received = Serial2.readStringUntil('\n');
     Serial.println(received);
     DynamicJsonDocument json = parseJson(received);
     const char* descrizione = json["descrizione"];

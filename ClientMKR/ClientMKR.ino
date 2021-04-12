@@ -23,7 +23,7 @@ void setup() {
   //Initialize serial and wait for port to open:
 
   Serial.begin(9600);
-  Serial1.begin(9600); // Pin 13 e 14 del MKR
+  Serial1.begin(4800); // Pin 13 e 14 del MKR
 
   while (!Serial) {
 
@@ -65,6 +65,7 @@ void checkResponse(){
   Serial.println(statusCode);
   Serial.println(response);
   Serial1.println(endpoint);
+  delay(100);
   Serial1.println(response);
   delay(500);
 }
