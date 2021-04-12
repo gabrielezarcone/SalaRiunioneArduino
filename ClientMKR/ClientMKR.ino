@@ -30,8 +30,48 @@ void setup() {
 
   }
 
-  // check for the WiFi module:
+  connettiWifi();
+  
+}
 
+void loop() {
+  //Serial.println("ready...");
+  if (status != WL_CONNECTED){
+    connettiWifi();
+  }
+  while(Serial1.available()){
+    String endpoint = Serial1.readString();
+    int err = sendRequest("GET", endpoint);
+    if(err==0){
+      Serial.println("Richiesta HTTP effettuata con successo");
+    }
+    else{
+      
+      Serial.println("Richiesta HTTP fallita");
+    }
+  }
+  checkResponse();
+}
+
+void checkResponse(){
+  // if there are incoming bytes available
+  // from the server, read them and print them:
+  if (client.available()) {
+    int statusCode = client.responseStatusCode();
+    String response = client.responseBody();
+    Serial.println(statusCode);
+    Serial.println(response);
+    Serial1.println(response);
+  }
+}
+
+int sendRequest(String method, String endpoint){
+  endpoint.trim();
+  return client.startRequest(endpoint.c_str(), method.c_str());
+}
+
+void connettiWifi(){
+  // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE) {
 
     Serial.println("Communication with WiFi module failed!");
@@ -73,39 +113,6 @@ void setup() {
 
   Serial.print("\nStarting connection to server...");
   Serial.println(SERVER_URL);
-}
-
-void loop() {
-  //Serial.println("ready...");
-  while(Serial1.available()){
-    String endpoint = Serial1.readString();
-    int err = sendRequest("GET", endpoint);
-    if(err==0){
-      Serial.println("Richiesta HTTP effettuata con successo");
-    }
-    else{
-      
-      Serial.println("Richiesta HTTP fallita");
-    }
-  }
-  checkResponse();
-}
-
-void checkResponse(){
-  // if there are incoming bytes available
-  // from the server, read them and print them:
-  if (client.available()) {
-    int statusCode = client.responseStatusCode();
-    String response = client.responseBody();
-    Serial.println(statusCode);
-    Serial.println(response);
-    Serial1.println(response);
-  }
-}
-
-int sendRequest(String method, String endpoint){
-  endpoint.trim();
-  return client.startRequest(endpoint.c_str(), method.c_str());
 }
 
 void printWifiStatus() {

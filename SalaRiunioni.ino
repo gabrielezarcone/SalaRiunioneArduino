@@ -33,7 +33,7 @@ void loop() {
     Serial.println(serial2Str);
   }
   if (time-startTime > 9000){
-    Serial.println(time);
+    //Serial.println(time);
     Serial2.println("/stanze/stanza");
     startTime = millis();
   }
