@@ -37,9 +37,9 @@ void setup() {
 
 void loop() {
   //Serial1.println("ready...");
-  while(Serial.available()){
+  while(Serial1.available()){
     Serial.println("Serial disponibile");
-    endpoint = Serial.readStringUntil('\n');
+    endpoint = Serial1.readStringUntil('\n');
     int err = sendRequest("GET", endpoint);
     if(err==0){
       Serial.println("Richiesta HTTP effettuata con successo");

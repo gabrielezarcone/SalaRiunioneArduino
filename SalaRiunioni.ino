@@ -1,7 +1,7 @@
 #include "src/SensorePassaggio/SensorePassaggio.h"
 #include "src/Schermo/Schermo.h"
 #include "src/ResponseParser/ResponseParser.h"
-#include <SPI.h>
+#include "src/Secrets.h"
 
 #define LASER_PIN1 53
 #define LASER_PIN2 51
@@ -33,8 +33,11 @@ void loop() {
     Serial.println(serial2Str);
   }
   if (time-startTime > 9000){
-    //Serial.println(time);
-    Serial2.println("/stanze/stanza");
+    Serial.println(time);
+    String arduinoName(ARDUINO_NAME);
+    Serial2.println("/prenotazione/findPrenotazioneAttuale/"+arduinoName);
+    delay(200);
+    Serial2.println("/prenotazione/findPrenotazioneSuccessiva/"+arduinoName);
     startTime = millis();
   }
 }
