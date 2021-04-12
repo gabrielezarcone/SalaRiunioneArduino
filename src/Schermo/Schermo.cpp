@@ -6,7 +6,6 @@
 
 
 Schermo::Schermo(){
-    _statusStanza = LIBERO;
 }
 
 
@@ -24,18 +23,12 @@ void Schermo::setup(){
 }
 
 void Schermo::renderLCD(){
-    Serial.println("sono dentro lo schermo");
-    Serial.print("descrizione private: ");
-    Serial.println(_nowDescrizione);
-    Serial.println(_nowInizio);
-    Serial.println(_nowFine);
-    Serial.println(_nowOrganizzatore);
-    Serial.println(_statusStanza);
     riquadroInCorso(0); // questo riquadro mostra le info della riunione in corso
     riquadroSuccessivo(215); // questo riquadro mostra le info della prossima riunione
 }
 
 void Schermo::riquadroInCorso(int yPartenza){
+    Serial.println(_statusStanza);
     if (_statusStanza == LIBERO){
         libero(yPartenza);
     }
@@ -106,11 +99,19 @@ void Schermo::updateNow(String descrizione, String oraInizio, String oraFine, St
     else{
         _statusStanza = OCCUPATO;
     }
-    Serial.print("descrizione updateNow: ");
-    Serial.println(descrizione);
     _nowDescrizione = descrizione;
-    _nowInizio = oraInizio;
-    _nowFine = oraFine;
+    if(oraInizio.length>=5){
+        _nowInizio = oraInizio.substring(0,5);
+    }
+    else{
+        _nowInizio = oraInizio;
+    }
+    if(oraInizio.length>=5){
+        _nowFine = oraInizio.substring(0,5);
+    }
+    else{
+        _nowFine = oraFine;
+    }
     _nowOrganizzatore = anagrafica;
     renderLCD();
 }
@@ -118,8 +119,18 @@ void Schermo::updateNow(String descrizione, String oraInizio, String oraFine, St
 void Schermo::updateNext(String descrizione, String oraInizio, String oraFine, String anagrafica){
     // aggiorna il riquadro successivo
     _nextDescrizione = descrizione;
-    _nextInizio = oraInizio;
-    _nextFine = oraFine;
+    if(oraInizio.length>=5){
+        _nextInizio = oraInizio.substring(0,5);
+    }
+    else{
+        _nextInizio = oraInizio;
+    }
+    if(oraInizio.length>=5){
+        _nextFine = oraInizio.substring(0,5);
+    }
+    else{
+        _nextFine = oraFine;
+    }
     _nextOrganizzatore = anagrafica;
     renderLCD();
 }

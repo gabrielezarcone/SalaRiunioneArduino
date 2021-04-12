@@ -27,23 +27,24 @@ void setup() {
 
 void loop() {
   time = millis();
-  sensorePorta.controllaEntrata();
-  sensorePorta.controllaUscita();
+  //sensorePorta.controllaEntrata();
+  //sensorePorta.controllaUscita();
   while (Serial2.available()){
     String serial2Str = Serial2.readStringUntil('\n');
     serial2Str.trim();
     Serial.println(serial2Str);
-    Serial.print("equals: ");
-    Serial.println(serial2Str.equals(RIUNIONE_ATTUALE+arduinoName));
     if(serial2Str.equals(RIUNIONE_ATTUALE+arduinoName)){
-      parser.onNowReceived(lcd);
+      parser.onNowReceived(&lcd);
+    }
+    if(serial2Str.equals(RIUNIONE_SUCCESSIVA+arduinoName)){
+      parser.onNextReceived(&lcd);
     }
   }
   if (time-startTime > 9000){
-    Serial.println(time);
+    //Serial.println(time);
     Serial2.println(RIUNIONE_ATTUALE+arduinoName);
-    delay(200);
-    //Serial2.println(RIUNIONE_SUCCESSIVA+arduinoName);
+    delay(300);
+    Serial2.println(RIUNIONE_SUCCESSIVA+arduinoName);
     startTime = millis();
   }
 }

@@ -12,8 +12,8 @@ class ResponseParser{
         Schermo lcd;
         DynamicJsonDocument ResponseParser::parseJson(String jsonString);
         void checkResponses();
-        void onNowReceived(Schermo schermo);
-        void onNextReceived();
+        void onNowReceived(Schermo* schermo);
+        void onNextReceived(Schermo* schermo);
 };
 
 #endif
