@@ -1,6 +1,7 @@
 #include "src/SensorePassaggio/SensorePassaggio.h"
 #include "src/Schermo/Schermo.h"
 #include "src/ResponseParser/ResponseParser.h"
+#include <SPI.h>
 
 #define LASER_PIN1 53
 #define LASER_PIN2 51
@@ -10,27 +11,25 @@
 SensorePassaggio sensorePorta(LASER_PIN1, LASER_PIN2, DETECTOR_PIN1, DETECTOR_PIN2);
 Schermo lcd;
 ResponseParser parser(lcd);
-int time;
 
 void setup() {
   lcd.setup();
   Serial.begin(115200);
+  delay(200);
   Serial2.begin(115200); // Serial a cui è collegata la board client wifi
+  delay(200);
   lcd.renderLCD();
 }
 
 void loop() {
-  time = millis();
   sensorePorta.controllaEntrata();
   sensorePorta.controllaUscita();
-  parser.checkResponses();
-  if(time > 3000){
-    Serial2.println(NOW);
-    if(Serial2.available()){
-      String string = Serial2.readString();
-      Serial.print("Prova: ");
-      Serial.println(string);
-    }
-    time=0;
+  //parser.checkResponses();
+  while (Serial2.available()){
+    Serial.println("check");
+    String serial2Str = Serial2.readString();
+    Serial.println(serial2Str);
   }
+  delay(2000);
+  //Serial2.write("/stanze/stanza");
 }

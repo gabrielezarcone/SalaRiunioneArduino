@@ -16,9 +16,17 @@ char receivedByte[1024];
 // --------------------------------------------------------------------------------------------------------
  
 void setup () {
+  
+  pinMode(LED_BUILTIN, OUTPUT);
  
   Serial.begin(115200);
-  // Serial.setDebugOutput(true);
+  //Serial.setDebugOutput(true);
+  delay(1000);
+
+  // Come da esempio bisogna inserire questi 3 println
+  Serial.println();
+  Serial.println();
+  Serial.println();
 
   for (uint8_t t = 4; t > 0; t--) {
     Serial.printf("[SETUP] WAIT %d...\n", t);
@@ -26,26 +34,35 @@ void setup () {
     delay(200);
   }
 
-  WiFi.mode(WIFI_STA);
-  WiFiMulti.addAP(SSID_WIFI, PASSWORD_WIFI);
-
+  while(WiFi.status() == WL_CONNECTED){
+    WiFi.mode(WIFI_STA);
+    WiFiMulti.addAP(SSID_WIFI, PASSWORD_WIFI);
+    Serial.println("Connetto al wifi...");
+  }
+  
+  //Serial.begin(115200);
+  //Serial.setDebugOutput(false);
 }
  
 void loop() {
+  digitalWrite(LED_BUILTIN, HIGH); // luce si accende a inizio loop
+  delay(200);
+  //Serial.println("ok..");
   if (Serial.available()){
     String endpoint = Serial.readString();
     sendHttpRequest("GET", endpoint, "");
   }
-  delay(2000);   
-
+  else{
+    Serial.println("non disponibile");
+  }
+  digitalWrite(LED_BUILTIN, LOW); // luce si spegne a fine loop
+  delay(200);
 }
 
 
 // --------------------------------------------------------------------------------------------------------
 
 void sendHttpRequest(char* method, String endpoint, String body){
-  if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
-    
     WiFiClient client;
     HTTPClient http;
     
@@ -79,5 +96,4 @@ void sendHttpRequest(char* method, String endpoint, String body){
     else {
       Serial.printf("[HTTP] Unable to connect\n");
     }
-  }
 }
