@@ -50,9 +50,7 @@ void HttpService::printResponseText(void* optParm, asyncHTTPrequest* request, in
   (void) optParm;
   
   if (readyState == 4) {
-    Serial.println("\n**************************************");
     Serial.println(request->responseText());
-    Serial.println("**************************************");
     
     request->setDebug(false);
   }

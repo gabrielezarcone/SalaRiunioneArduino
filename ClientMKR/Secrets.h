@@ -3,7 +3,8 @@
 
 #define SSID_WIFI ""
 #define PASSWORD_WIFI ""
-#define BASE_URL "http://192.168.85.47:8080"
+#define SERVER_URL "192.168.1.136"
+#define SERVER_PORT 8050
 #define ARDUINO_NAME "arduino1"
 
 #endif

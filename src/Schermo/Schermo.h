@@ -7,13 +7,18 @@
 
 
 #define BLACK     0x0000
-#define RED       0xD28C
-#define GREEN     0x6DC9
+#define RED       0xF800
+#define GREEN     0x07E0
 #define CYAN      0x779E
 #define DARK_CYAN 0x4CF3
 #define GREY      0xD6BB 
 #define DARK_GREY 0x5AEB 
 #define WHITE     0xFFFF
+
+enum StatusStanza{
+    LIBERO,
+    OCCUPATO
+};
 
 
 class Schermo{
@@ -24,15 +29,25 @@ class Schermo{
         void setup();
         void renderLCD();
         void riquadroInCorso(int yPartenza);
-        void occupato(int yPartenza, String titoloRiunione);
+        void occupato(int yPartenza);
         void libero(int yPartenza);
         void riquadroSuccessivo(int yPartenza);
-        void orario(int hh, int mm, int yPartenza, uint16_t color);
+        void orario(String orario, int yPartenza, uint16_t color);
         void organizzatore(String nome, int yPartenza);
         void printString(String str, int xCursor, int yCursor , int size, uint16_t color);
         void printCenterString(const String buf, int x, int y, int size, uint16_t color);
+        void updateNow(String descrizione, String oraInizio, String oraFine, String anagrafica, bool isLibero);
+        void updateNext(String descrizione, String oraInizio, String oraFine, String anagrafica);
     private:
-        int _statusStanza; // 0 se stanza libera, 1 se occupata
+        int _statusStanza; 
+        String _nowDescrizione;
+        String _nowInizio;
+        String _nowFine;
+        String _nowOrganizzatore;
+        String _nextDescrizione;
+        String _nextInizio;
+        String _nextFine;
+        String _nextOrganizzatore;
 };
 
 #endif

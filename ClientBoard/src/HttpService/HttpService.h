@@ -23,7 +23,7 @@ class HttpService{
         asyncHTTPrequest request;
         void setup();
         void sendRequest(char* method, char* url, char* body={});
-        void printResponseText(void* optParm, asyncHTTPrequest* request, int readyState);
+        static void printResponseText(void* optParm, asyncHTTPrequest* request, int readyState);
 };
 
 #endif
